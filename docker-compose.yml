@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    command: npm run dev
+    depends_on:
+      - postgres
+    volumes:
+      - ./src:/usr/app/src
+      - ./migrations:/usr/app/migrations
+      - ./uploads:/usr/app/uploads
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresdb_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+volumes:
+  postgresdb_data:
